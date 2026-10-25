@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Assistant Chatbot</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- Feather Icons for UI icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       LANDING PAGE SECTION
+  ══════════════════════════════════════════ -->
+  <section id="landing" class="landing-screen">
+
+    <!-- Animated background grid -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- Floating orbs decoration -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="landing-content">
+      <!-- Badge -->
+      <div class="landing-badge">
+        <span class="badge-dot"></span>
+        Powered by Claude AI
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="landing-title">
+        Your <span class="gradient-text">AI Assistant</span><br/>
+        Reimagined
+      </h1>
+
+      <!-- Description -->
+      <p class="landing-desc">
+        Experience intelligent conversations with a chatbot that understands context,
+        remembers your history, and responds with precision. Built for the future.
+      </p>
+
+      <!-- Feature pills -->
+      <div class="feature-pills">
+        <div class="pill"><i data-feather="zap"></i> Instant Replies</div>
+        <div class="pill"><i data-feather="shield"></i> Secure &amp; Private</div>
+        <div class="pill"><i data-feather="refresh-cw"></i> Chat History</div>
+        <div class="pill"><i data-feather="mic"></i> Voice Input</div>
+      </div>
+
+      <!-- CTA Button -->
+      <button class="cta-btn" id="startChatBtn">
+        <span>Start Chatting</span>
+        <i data-feather="arrow-right"></i>
+      </button>
+
+      <!-- Stats row -->
+      <div class="landing-stats">
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Smart Responses</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Conversations</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">0ms</span><span class="stat-label">Setup Time</span></div>
+      </div>
+    </div>
+
+    <!-- Decorative chat preview card -->
+    <div class="preview-card">
+      <div class="preview-header">
+        <div class="preview-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="preview-title">AI Assistant</span>
+      </div>
+      <div class="preview-messages">
+        <div class="preview-msg bot">Hello! How can I help you today? 👋</div>
+        <div class="preview-msg user">What can you do for me?</div>
+        <div class="preview-msg bot">I can answer questions, help with writing, explain concepts, brainstorm ideas, and much more!</div>
+        <div class="preview-typing">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       MAIN CHAT APPLICATION
+  ══════════════════════════════════════════ -->
+  <div id="chatApp" class="chat-app hidden">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <!-- Logo -->
+        <div class="sidebar-logo">
+          <div class="logo-icon"><i data-feather="cpu"></i></div>
+          <span>AI Assistant</span>
+        </div>
+
+        <!-- New Chat Button -->
+        <button class="new-chat-btn" id="newChatBtn">
+          <i data-feather="plus"></i>
+          New Chat
+        </button>
+      </div>
+
+      <!-- Chat History -->
+      <div class="sidebar-history">
+        <p class="history-label">Recent Chats</p>
+        <div class="history-list" id="historyList">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button class="footer-btn" id="clearAllBtn">
+          <i data-feather="trash-2"></i>
+          Clear All Chats
+        </button>
+        <button class="footer-btn" id="backToLandingBtn">
+          <i data-feather="home"></i>
+          Home
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── MAIN CHAT AREA ── -->
+    <main class="chat-main">
+
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <!-- Mobile hamburger -->
+        <button class="hamburger" id="hamburgerBtn">
+          <i data-feather="menu"></i>
+        </button>
+
+        <div class="header-info">
+          <div class="header-avatar">
+            <i data-feather="cpu"></i>
+            <span class="status-dot"></span>
+          </div>
+          <div>
+            <h2 class="header-title">AI Assistant</h2>
+            <p class="header-status" id="headerStatus">Online · Ready to help</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" id="clearChatBtn" title="Clear current chat">
+            <i data-feather="refresh-cw"></i>
+          </button>
+          <button class="icon-btn" id="themeToggleBtn" title="Toggle theme">
+            <i data-feather="sun"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages Container -->
+      <div class="messages-container" id="messagesContainer">
+
+        <!-- Welcome screen (shown when chat is empty) -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon"><i data-feather="cpu"></i></div>
+          <h3>How can I help you today?</h3>
+          <p>Ask me anything — I'm here to assist with questions, writing, ideas, and more.</p>
+
+          <!-- Suggestion chips -->
+          <div class="suggestion-grid">
+            <button class="suggestion-chip" data-text="Explain quantum computing in simple terms">
+              <i data-feather="book-open"></i>
+              <span>Explain quantum computing</span>
+            </button>
+            <button class="suggestion-chip" data-text="Write a professional email to reschedule a meeting">
+              <i data-feather="mail"></i>
+              <span>Write a professional email</span>
+            </button>
+            <button class="suggestion-chip" data-text="What are the best practices for learning to code?">
+              <i data-feather="code"></i>
+              <span>Best coding practices</span>
+            </button>
+            <button class="suggestion-chip" data-text="Give me 5 creative business ideas for 2025">
+              <i data-feather="lightbulb"></i>
+              <span>Creative business ideas</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat messages go here -->
+        <div class="messages-list" id="messagesList"></div>
+
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+
+          <!-- Voice Input Button -->
+          <button class="input-icon-btn" id="voiceBtn" title="Voice input">
+            <i data-feather="mic"></i>
+          </button>
+
+          <!-- Text Input -->
+          <textarea
+            id="chatInput"
+            placeholder="Ask me anything..."
+            rows="1"
+            autocomplete="off"
+          ></textarea>
+
+          <!-- Send Button -->
+          <button class="send-btn" id="sendBtn" disabled>
+            <i data-feather="send"></i>
+          </button>
+        </div>
+        <p class="input-hint">AI may make mistakes. Use responses as a starting point.</p>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       TOAST NOTIFICATION
+  ══════════════════════════════════════════ -->
+  <div class="toast" id="toast"></div>
+
+
+  <!-- ══════════════════════════════════════════
+       CONFIRMATION MODAL
+  ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-icon"><i data-feather="alert-triangle"></i></div>
+      <h3 class="modal-title" id="modalTitle">Clear all chats?</h3>
+      <p class="modal-desc" id="modalDesc">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="modalCancel">Cancel</button>
+        <button class="modal-btn confirm" id="modalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
