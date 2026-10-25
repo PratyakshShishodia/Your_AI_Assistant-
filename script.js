@@ -69,7 +69,7 @@ const SMART_RESPONSES = [
     ]
   },
   {
-    patterns: ["python", "django", "flask", "fastapi", "machine learning", "ml", "ai"],
+    patterns: ["python", "django", "flask", "fastapi", "machine learning", "ml", "artificial intelligence"],
     responses: [
       "Python is fantastic — especially for AI/ML, data science, and web backends. Libraries like NumPy, Pandas, and PyTorch make it incredibly powerful.\n\nAre you working on a data project, building an API, or diving into machine learning? I'd love to help!",
       "Python's clean syntax makes it perfect for beginners AND experts alike. What specifically are you working on? I can help with code, best practices, or concepts."
